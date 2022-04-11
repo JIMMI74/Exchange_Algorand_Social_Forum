@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block head_title %}{{ block.super }} - Delete{% endblock head_title %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-3">
+    <div class="col-4 text-center">
+        <form method="post">
+            {% csrf_token %}
+            <p>Are you sure you want to delete order "{{ order_number }}"?</p>
+            <input type="submit" value="Confirm">
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

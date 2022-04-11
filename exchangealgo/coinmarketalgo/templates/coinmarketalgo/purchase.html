@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block head_title %}{{ block.super }} - Purchase{% endblock head_title %}
+{% block content %}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-6 text-center nio">
+        <h2>New Order-Algorand -ALGO-</h2>
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input class="btn-danger" type="submit" value="Buy ALGO Coin">
+        </form>
+        <h2><strong>Current Price ALGO/USD ={{ new_price }}</strong></h2>
+        <h6>{{ Profile.wallet_usd }}</h6>
+
+    </div>
+ </div>
+
+{% endblock content %}

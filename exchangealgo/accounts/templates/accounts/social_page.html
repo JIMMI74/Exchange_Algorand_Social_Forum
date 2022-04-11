@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if request.user.is_staff %}
+    <div class="card-body ps-0 pb-0">
+        <a class="btn btn-sm btn-danger" href="{% url 'create_section' %}">Create Section</a>
+    </div>
+{% endif %}
+ <div class="card my-5">
+         <div class="card-header"style="background-color:blue;color:white;height:30px">
+        <td><marquee behavior="alternate">
+            Welcome now you can buy ALGO coin  ... CLICK ON ALGO CEX or ALGO DEX.....let's go !!
+        </marquee></td>
+    </div>
+    </div>
+
+
+
+<script>
+    var slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " active";
+        setTimeout(showSlides, 2000); // Change image every 2 seconds
+    }
+</script>
+{% for section in list_section %}
+    <div class="card my-3">
+        <div class="card-header">
+            <h5><a href="{{ section.get_absolute_url }}"><strong>{{ section.title_section }}</strong></a></h5>
+            <p class="mb-0">{{ section.description }}</p>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3">
+                    <img src="{{ section.logo_section.url }}" style="max-width:100%">
+                    <p>Total Discussion: {{ section.discussion_set.count }}
+                    <br>Total Message: {{ section.get_number_of_posts_in_section }}</p>
+                </div>
+                <div class="col-lg-9">
+                    <p>Last Discussion</p>
+                    <table class="table table-hover">
+                        <tbody>
+                            {% for discussion in section.get_last_discussions.all %}
+                                <tr class="row">
+                                    <td class="col-lg-7 col-6">
+                                        <a href="{% url 'discussion_view' pk=discussion.pk %}">{{ discussion.title }}</a>
+                                    </td>
+                                    <td class="col-lg-3 col-3">
+                                        by <a href="#">{{ discussion.author_discussion }}</a>
+                                    </td>
+                                    <td class="col-lg-2 col-3">
+                                        posts: {{ discussion.post_set.count }}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endfor %}
+
+{% endblock content %}

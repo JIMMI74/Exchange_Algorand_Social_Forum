@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block head_title %}{{ block.super }} - Confirm{% endblock head_title %}
+
+{% block content %}
+<div class="row justify-content-center mt-3">
+    <div class="col-4 text-center">
+        <h4>Do you want to delete post?</h4>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Confirm">
+        </form>
+    </div>
+</div>
+{% endblock content %}

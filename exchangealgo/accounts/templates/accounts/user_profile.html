@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block head_title %}{{ block.super }} - {{ user }}{% endblock head_title %}
+{% block content %}
+
+<div class="row mt-5 prof">
+    <div class="col-8">
+        <div class="card my-3 ">
+            <div class="card-header bg-info ">
+                <h4>{% if request.user == user %}<h3><strong>{{ user}}</strong></h3>{% endif %}<strong>PORTFOLIO UPDATE</strong></h4>
+
+                <div class="card-body ">
+                <div class="card-header bg-primary"> date enter: {{ user.date_joined|date:"d M Y" }}
+                <br>
+                <p class="mb-0">- Total Algo in your Wallet = <strong>{{ algowallet }} ALGO</strong></p>
+                    <p class="mb-0">- Total Ctv = <strong>{{ algo_usd }}$  </strong></p>
+                <p class="mb-0">- Balance Wallet USD = <strong>{{ remaining_balance }}$</strong></p>
+                <p class="mb-0">- Gain/Loss : <strong>{{ profit }}</strong></p>
+                    <p class="mb-0">- PENDING USD: <strong>{{ pending_USD }}</strong></p>
+                    <p class="mb-0">- PENDING ALGO: <strong>{{ pending_ALGO }}</strong></p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+<div class="col-4">
+    <div class="card my-3 ">
+        <div class="card-header bg-info">
+            <h4>General Market Current</h4>
+        </div>
+        <div class="card-body">
+            <div class="card-body">
+                <p>ALGO/USD: <strong>{{ price }}$</strong></p>
+                <p>Market cap: <strong>{{ market_cap }}%</strong></p>
+                <p>Volume 24h: <strong>{{ vol24h }}%</strong></p>
+                <p>Percentage change 24h: <strong>{{ percent_24h }}%</strong></p>
+            </div>
+        </div>
+        <div class="card-footer bg-primary"></div>
+        </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-4"></div>
+                <div class="card my-3">
+                    <div class="card-header bg-info">
+                        <h4>Status Order </h4>
+                    </div>
+                        <div class="card-body">
+                            <div class="card-body">
+                                <p>{% if request.user == user %}<h3><strong>Your Status Order</strong></h3> {% endif %}</p>
+                                <hr>
+                                    {% for ordering in orders %}
+                                <strong><h4><br>Number Order {{ ordering.order_number }}</h4>Status-><strong>({{ ordering.status }})  </strong>{{ ordering.datetime}}</strong>
+                                    {% endfor %}
+                            </div>
+                        </div>
+                 <div class="card-footer bg-primary"></div>
+            </div>
+        </div>
+     </div>
+</div>
+
+    <div class="card my-0">
+        <div class="card-header bg-info">
+            <h4><strong>Latest Public Transaction</strong></h4> <h6>- soon as the transaction is concluded, you will have the opportunity to view the bookorde-</h6>
+        </div>
+            <div class="card-body">
+                {% for order_transaction in orders_transactions %}
+                     <div class="lead"> Date Transaction: {{ order_transaction.datetime|date:"M d Y H:m:s"  }}
+                    <hr>
+                <br></div>
+                    <p>{% if order_transaction.call == request.user %}Type : Call from {{ order_transaction.put }}{% endif %}</p>
+                    <p>{% if order_transaction.put == request.user  %}Type : Sell to {{ order_transaction.call }}{% endif %}</p>
+                    <p class="mb-0">Quantity: {{ order_transaction.quantity }} - Price: {{ order_transaction.price }}</p>
+                        {% endfor %}
+            </div>
+        <div class="card-footer bg-primary"></div>
+    </div>
+ </div>
+{% endblock content %}

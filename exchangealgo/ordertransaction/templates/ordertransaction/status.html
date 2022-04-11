@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Status Order</h1>
+
+
+{% for order in object_list %}
+	<div class=" col">
+		<div class ="card my-1 border border-info mb-3 ">
+			<div class="card-header bg-info">
+				<h5>{{ order.profile.user.email }}</h5><p class="text-dark mb-0">{{ order.datetime|date:"M d Y H:m:s" }}</p>
+				<hr><br>
+				{% if order.status == 'open' %}
+					{% if user == order.profile.user %}
+				<p>[Order Number] =<strong><mark>{{ order.order_number }}</mark></strong></p>
+				<p>[Quantity] =<strong><mark>{{ order.quantity_max_insert }}</mark></strong></p>
+				<p>[Price] =<strong><mark>{{ order.price }}</mark></strong></p>
+				<p>status ({{ order.status }}){% if order.position == 'BUY' %}<h5><strong><span class="badge badge-secondary badge bg-success">
+				({{ order.position }})</span></strong></h5>{% else %}<h5><strong><span class="badge badge-secondary badge bg-warning">
+				({{ order.position }}){% endif %}</span></strong></h5><p> {{ order.datetime }}</p>
+					<a href="{% url 'delete_orders' order.order_number %}" class="btn btn-danger">Delete</a>
+					{% endif %}
+		    	{% endif %}
+			</div>
+		</div>
+	</div>
+{% endfor %}
+{% endblock content %}

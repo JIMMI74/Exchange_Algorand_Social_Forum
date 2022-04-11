@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>justSoondar!</title>
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'css/algo.css' %}">
+
+
+    <!-- animate css link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- google font link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet"/>
+</head>
+
+<body>
+<br>
+<br>
+
+    <!-- slider section -->
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+
+        </div>
+        <div class="carousel-inner">
+            {% for object in obj %}
+            <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                <img src="{{object.image.url}}" style="height:700px;" class="test-overly d-block w-100" alt="sliderImg">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 class="animate__animated
+                    {% if forloop.counter0 == 0 %}
+                    animate__fadeInDown
+                    {% endif %}
+                    {% if forloop.revcounter == 1 %}
+                    animate__bounce
+                     {% if forloop.counter2 == 3 %}
+                    animate__fadeInDown
+                    {% endif %}
+                    {% endif %}">{{object.title}}</h1>
+                    <div class="text-primary">
+                    <h2 class="animate__animated animate__zoomIn">{{object.sub_title}}</h2>
+                    <link rel="stylesheet" href="{{object.link}}"><strong>{{object.action_name}}</strong>
+                    </div>
+                </div>
+                <a href="{% url 'registration_view' %}">
+                    <button class="position-absolute bottom-0 start-50 translate-middle-x mt-2 animate__animated animate__zoomIn p-3 px3 btn btn-primary font-weight-bold">
+                        <h3>Buy ALGO coin , Click Here now!</h3><i class="fa-solid fa-down-to-line"></i>
+                    </button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+</body>
+<br>
+<h1><strong>This is the Future of Finance</strong></h1>
+
+</html>
+
+{% endblock content %}
+

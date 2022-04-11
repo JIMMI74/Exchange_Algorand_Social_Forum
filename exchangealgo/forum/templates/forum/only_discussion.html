@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{{ block.super }} - {{ discussion.title }}{% endblock head_title %}
+
+{% block content %}
+
+    {% for post in posts_discussion %}
+    <div class="card my-3">
+        {% if forloop.first and not "page" in request.get_full_path %}
+            <div class="card-header pb-0 bg-info">
+                <h3>{{ discussion.title }}</h3>
+                <p class="text-muted">{{ discussion.published|date:"D d M Y" }}
+                <br>in: {{ discussion.membership }}</p>
+            </div>
+        {% else %}
+            <div class="card-header py-0">
+                <p class="text-dark mb-0">
+                    {{ post.published|date:"d M Y" }}
+                    {% if request.user == post.author_post %}
+                        <a href="{% url 'delete_post' id=discussion.pk pk=post.pk %}">Delete</a>
+                    {% endif %}
+                </p>
+            </div>
+        {% endif %}
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xl-2 col-4">
+                    <p class="mb-0" ><a href="{% url 'user_profile_social' username=post.author_post.username %}"><strong>{{ post.author_post }}</strong></a></p>
+                    <p class="text-muted mb-0">User : {{ post.author_post.date_joined|date:"M Y" }}</p>
+                    <p class="text-muted" >Posts: {{ post.author_post.posts.count }}</p>
+                </div>
+                <div class="col-xl-10 col-8">
+                    <p class="my-0">{{ post.content|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="text-right">
+        <span class="step-links">
+            {% if posts_discussion.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ posts_discussion.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ posts_discussion.number }} of {{ posts_discussion.paginator.num_pages }}.
+            </span>
+
+            {% if posts_discussion.has_next %}
+                <a href="?page={{ posts_discussion.next_page_number }}">next</a>
+                <a href="?page={{ posts_discussion.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+
+    {% if request.user.is_authenticated %}
+        {% include 'forum/form_request.html' %}
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            if you want to participate you must first do the <a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a>
+        </div>
+    {% endif %}
+    <div class="row justify-content-center mr-4">
+        <div class="col-6 text-center">
+           <p>Back to the social page !</p>
+            <a class="link-info" href="{% url 'social_page' %}">Social Page</a>
+        </div>
+    </div>
+
+{% endblock content %}
